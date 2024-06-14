@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Vibes App</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            color: #f0f0f0;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #bb86fc;
+        }
+        .controls button, .mode-toggle, .accountability-toggle {
+            padding: 10px 20px;
+            background-color: #03dac6;
+            color: #121212;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .controls button:hover, .mode-toggle:hover, .accountability-toggle:hover {
+            background-color: #018786;
+        }
+        .task-input {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 50px);
+            margin-right: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            padding: 15px;
+            background-color: #2c2c2c;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+        li .task-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        li .task-timer {
+            margin-top: 10px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        li div {
+            display: flex;
+            gap: 5px;
+        }
+        .edit-button {
+            background-color: #ffb300;
+        }
+        .remove-button {
+            background-color: #cf6679;
+        }
+        .complete-button {
+            background-color: #03dac6;
+        }
+        .pomodoro-button {
+            background-color: #bb86fc;
+        }
+        .edit-button:hover {
+            background-color: #ffa000;
+        }
+        .remove-button:hover {
+            background-color: #b00020;
+        }
+        .complete-button:hover {
+            background-color: #018786;
+        }
+        .pomodoro-button:hover {
+            background-color: #8853fc;
+        }
+        .light-mode {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+        .light-mode .container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .light-mode h1 {
+            color: #6200ea;
+        }
+        .light-mode .controls button, .light-mode .mode-toggle, .light-mode .accountability-toggle {
+            background-color: #6200ea;
+            color: #ffffff;
+        }
+        .light-mode .controls button:hover, .light-mode .mode-toggle:hover, .light-mode .accountability-toggle:hover {
+            background-color: #3700b3;
+        }
+        .light-mode li {
+            background-color: #ffffff;
+            border-color: #6200ea;
+        }
+        .light-mode li.completed {
+            color: #b0bec5;
+        }
+        .light-mode .edit-button {
+            background-color: #ff9800;
+        }
+        .light-mode .remove-button {
+            background-color: #f44336;
+        }
+        .light-mode .complete-button {
+            background-color: #4caf50;
+        }
+        .light-mode .pomodoro-button {
+            background-color: #7e57c2;
+        }
+        .light-mode .edit-button:hover {
+            background-color: #fb8c00;
+        }
+        .light-mode .remove-button:hover {
+            background-color: #e53935;
+        }
+        .light-mode .complete-button:hover {
+            background-color: #388e3c;
+        }
+        .light-mode .pomodoro-button:hover {
+            background-color: #5e35b1;
+        }
+        .accountability-mirror {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .accountability-mirror h2 {
+            font-size: 20px;
+            color: #bb86fc;
+            margin-bottom: 10px;
+        }
+        .accountability-mirror input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .accountability-mirror ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+        .accountability-mirror li {
+            padding: 10px;
+            background-color: #2c2c2c;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-top: 5px;
+            text-align: left;
+            color: #f0f0f0;
+        }
+        .light-mode .accountability-mirror h2 {
+            color: #6200ea;
+        }
+        .light-mode .accountability-mirror li {
+            background-color: #ffffff;
+            border-color: #6200ea;
+            color: #121212;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Good Vibes App</h1>
+    <div class="task-input">
+        <input type="text" id="taskInput" placeholder="Add a new task...">
+        <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+    <button class="mode-toggle" onclick="toggleMode()">Switch to Light Mode</button>
+    <button class="accountability-toggle" onclick="toggleAccountability()">Accountability Mirror</button>
+</div>
+
+<div class="container accountability-mirror" id="accountabilityMirror">
+    <h2>Accountability Mirror</h2>
+    <input type="text" id="quoteInput" placeholder="Add a new quote...">
+    <button onclick="addQuote()">Add Quote</button>
+    <ul id="quoteList"></ul>
+</div>
+
+<script>
+    let isLightMode = false;
+
+    function addTask() {
+        const taskInput = document.getElementById('taskInput');
+        const taskText = taskInput.value.trim();
+
+        if (taskText === '') {
+            alert('Please enter a task.');
+            return;
+        }
+
+        const taskList = document.getElementById('taskList');
+        const li = document.createElement('li');
+
+        li.innerHTML = `
+            <div class="task-info">
+                <span>${taskText}</span>
+                <div>
+                    <button class="edit-button" onclick="editTask(this)">Edit</button>
+                    <button class="remove-button" onclick="removeTask(this)">Remove</button>
+                    <button class="complete-button" onclick="completeTask(this)">Complete</button>
+                    <button class="pomodoro-button" onclick="togglePomodoro(this)">Pomodoro</button>
+                </div>
+            </div>
+            <div class="task-timer">
+                <span class="timer">25:00</span>
+                <div class="controls">
+                    <button onclick="startTimer(this)">Start</button>
+                    <button onclick="pauseTimer(this)">Pause</button>
+                    <button onclick="resetTimer(this)">Reset</button>
+                </div>
+            </div>
+        `;
+
+        taskList.appendChild(li);
+        saveTasks();
+        taskInput.value = '';
+    }
+
+    function removeTask(button) {
+        const li = button.parentNode.parentNode.parentNode;
+        li.remove();
+        saveTasks();
+    }
+
+    function editTask(button) {
+        const li = button.parentNode.parentNode.parentNode;
+        const span = li.querySelector('span');
+        const newTask = prompt('Edit your task:', span.textContent);
+
+        if (newTask && newTask.trim() !== '') {
+            span.textContent = newTask.trim();
+            saveTasks();
+        }
+    }
+
+    function completeTask(button) {
+        const li = button.parentNode.parentNode.parentNode;
+        li.classList.toggle('completed');
+        saveTasks();
+    }
+
+    function togglePomodoro(button) {
+        const li = button.parentNode.parentNode.parentNode;
+        const timerContainer = li.querySelector('.task-timer');
+        timerContainer.style.display = timerContainer.style.display === 'none' || timerContainer.style.display === '' ? 'flex' : 'none';
+    }
+
+    function startTimer(button) {
+        const timerContainer = button.parentNode.parentNode;
+        const timerDisplay = timerContainer.querySelector('.timer');
+        let [minutes, seconds] = timerDisplay.textContent.split(':').map(Number);
+
+        if (timerContainer.interval) clearInterval(timerContainer.interval);
+
+        timerContainer.interval = setInterval(() => {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(timerContainer.interval);
+                    alert('Time is up!');
+                    return;
+                }
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    function pauseTimer(button) {
+        const timerContainer = button.parentNode.parentNode;
+        clearInterval(timerContainer.interval);
+    }
+
+    function resetTimer(button) {
+        const timerContainer = button.parentNode.parentNode;
+        clearInterval(timerContainer.interval);
+        const timerDisplay = timerContainer.querySelector('.timer');
+        timerDisplay.textContent = '25:00';
+    }
+
+    function saveTasks() {
+        const tasks = [];
+        const taskList = document.getElementById('taskList').children;
+
+        for (let task of taskList) {
+            tasks.push({
+                text: task.querySelector('.task-info span').textContent,
+                completed: task.classList.contains('completed')
+            });
+        }
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const taskList = document.getElementById('taskList');
+
+        for (let task of tasks) {
+            const li = document.createElement('li');
+            li.classList.toggle('completed', task.completed);
+
+            li.innerHTML = `
+                <div class="task-info">
+                    <span>${task.text}</span>
+                    <div>
+                        <button class="edit-button" onclick="editTask(this)">Edit</button>
+                        <button class="remove-button" onclick="removeTask(this)">Remove</button>
+                        <button class="complete-button" onclick="completeTask(this)">Complete</button>
+                        <button class="pomodoro-button" onclick="togglePomodoro(this)">Pomodoro</button>
+                    </div>
+                </div>
+                <div class="task-timer">
+                    <span class="timer">25:00</span>
+                    <div class="controls">
+                        <button onclick="startTimer(this)">Start</button>
+                        <button onclick="pauseTimer(this)">Pause</button>
+                        <button onclick="resetTimer(this)">Reset</button>
+                    </div>
+                </div>
+            `;
+
+            taskList.appendChild(li);
+        }
+    }
+
+    function toggleMode() {
+        isLightMode = !isLightMode;
+        document.body.classList.toggle('light-mode', isLightMode);
+        document.querySelector('.mode-toggle').textContent = isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+    }
+
+    function toggleAccountability() {
+        const accountabilityMirror = document.getElementById('accountabilityMirror');
+        accountabilityMirror.style.display = accountabilityMirror.style.display === 'none' || accountabilityMirror.style.display === '' ? 'flex' : 'none';
+    }
+
+    function addQuote() {
+        const quoteInput = document.getElementById('quoteInput');
+        const quoteText = quoteInput.value.trim();
+
+        if (quoteText === '') {
+            alert('Please enter a quote.');
+            return;
+        }
+
+        const quoteList = document.getElementById('quoteList');
+        const li = document.createElement('li');
+        li.textContent = quoteText;
+
+        quoteList.appendChild(li);
+        saveQuotes();
+        quoteInput.value = '';
+    }
+
+    function saveQuotes() {
+        const quotes = [];
+        const quoteList = document.getElementById('quoteList').children;
+
+        for (let quote of quoteList) {
+            quotes.push(quote.textContent);
+        }
+
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+    }
+
+    function loadQuotes() {
+        const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
+        const quoteList = document.getElementById('quoteList');
+
+        for (let quote of quotes) {
+            const li = document.createElement('li');
+            li.textContent = quote;
+            quoteList.appendChild(li);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTasks();
+        loadQuotes();
+    });
+</script>
+
+</body>
+</html>
