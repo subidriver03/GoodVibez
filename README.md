@@ -61,7 +61,7 @@ The **Good Vibes App** is a task management and productivity tool designed to he
    ```bash
    git clone https://github.com/subidriver03/GoodVibez.git
    ```
-2. **Open the `index.html` file:**
+2. **Open the `JSFinal_1.html` file:**
    - Open the file in your preferred web browser to use the app.
 
 ## Contributing
